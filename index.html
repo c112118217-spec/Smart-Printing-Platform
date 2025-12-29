@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧印刷平台 | CMYKB</title>
+    <style>
+        /* --- CSS 變數 --- */
+        :root {
+            --primary: #0056b3;
+            --secondary: #00a8cc;
+            --bg: #f4f7f6;
+            --text: #333;
+            --danger: #dc3545;
+            --success: #28a745;
+            --card-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            --modal-bg: rgba(0,0,0,0.85);
+        }
+        body { font-family: 'Microsoft JhengHei', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; }
+        
+        /* --- Header --- */
+        header { background: white; padding: 1rem 5%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); cursor: pointer; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { cursor: pointer; font-weight: bold; color: #666; transition: 0.2s; }
+        .nav-item:hover { color: var(--primary); }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .cart-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; position: relative; }
+        .cart-badge { position: absolute; top: -5px; right: -8px; background: var(--danger); color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; }
+        .user-info { font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+
+        .container { max-width: 1100px; margin: 2rem auto; padding: 0 20px; padding-bottom: 60px; }
+
+        /* --- Auth --- */
+        .auth-container { max-width: 450px; margin: 50px auto; background: white; padding: 40px; border-radius: 15px; box-shadow: var(--card-shadow); text-align: center; }
+        .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid #eee; }
+        .auth-tab { flex: 1; padding: 10px; cursor: pointer; color: #666; font-weight: bold; }
+        .auth-tab.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+        .auth-form input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .auth-help { margin-top: 15px; font-size: 0.9rem; color: #666; }
+
+        /* --- Components --- */
+        .hidden-section { display: none; animation: fadeIn 0.3s; }
+        .back-btn { background: none; border: none; color: #666; cursor: pointer; font-size: 1rem; margin-bottom: 1rem; }
+        .btn-primary { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 15px; font-size: 1.1rem; }
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+        
+        /* --- Home --- */
+        .mode-selection { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+        .mode-card { background: white; padding: 2.5rem; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s; border: 2px solid transparent; box-shadow: var(--card-shadow); }
+        .mode-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+
+        /* --- Library --- */
+        .library-section { background: white; padding: 40px; border-radius: 15px; box-shadow: var(--card-shadow); }
+        .library-tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .lib-tab { padding: 8px 20px; cursor: pointer; border-radius: 20px; font-weight: bold; background: #eee; color: #666; border: none; transition:0.2s; }
+        .lib-tab.active { background: var(--primary); color: white; }
+        .spec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .spec-card { border: 1px solid #eee; border-radius: 10px; padding: 20px; transition: 0.3s; background: white; position: relative; overflow: hidden; }
+        .spec-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: var(--secondary); }
+        .texture-demo { height: 100px; border-radius: 8px; margin-bottom: 15px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: rgba(0,0,0,0.5); font-weight: bold; border: 1px solid #ddd; }
+        .tex-glossy { background: linear-gradient(135deg, #fff 0%, #eee 50%, #fff 100%); }
+        .tex-matte { background: #f0f0f0; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
+        .tex-kraft { background: #d2b48c; }
+        .tex-pearl { background: linear-gradient(45deg, #fff0f5, #e6e6fa); }
+        .spec-title { font-size: 1.2rem; font-weight: bold; color: var(--primary); margin-bottom: 5px; }
+        .spec-desc { font-size: 0.9rem; color: #666; margin-bottom: 15px; min-height: 50px; }
+        .use-btn { width: 100%; padding: 8px; background: white; border: 1px solid var(--primary); color: var(--primary); border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .use-btn:hover { background: var(--primary); color: white; }
+
+        /* --- Order Form --- */
+        .form-container { background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--card-shadow); }
+        .form-section-title { border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-bottom: 20px; color: var(--primary); font-size: 1.1rem; font-weight: bold; margin-top: 20px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        optgroup { color: var(--primary); font-weight: bold; }
+        .upload-area { border: 2px dashed #ccc; padding: 30px; text-align: center; border-radius: 10px; margin-top: 20px; cursor: pointer; position: relative; }
+        .upload-area:hover { border-color: var(--primary); background: #f0f8ff; }
+        .file-input { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
+        .status-box { margin-top: 15px; padding: 10px; border-radius: 5px; font-size: 0.9rem; display: none; text-align: left; }
+        .status-ok { background: #d4edda; color: #155724; }
+        .price-box { background: #f8f9fa; padding: 1.5rem; border-radius: 10px; text-align: right; border-left: 5px solid var(--primary); margin-top: 2rem; }
+        .total-price { font-size: 2rem; color: #d9534f; font-weight: bold; }
+
+        /* --- Chat --- */
+        .chat-interface { background: white; border-radius: 15px; height: 550px; display: flex; flex-direction: column; padding: 20px; box-shadow: var(--card-shadow); }
+        .chat-window { flex: 1; overflow-y: auto; background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        .message { margin-bottom: 15px; max-width: 80%; padding: 12px 18px; border-radius: 15px; display: inline-block; word-wrap: break-word; }
+        .bot { background: #e9ecef; float: left; } .user { background: var(--primary); color: white; float: right; }
+        .chat-options { text-align: right; margin-top: 10px; }
+        .option-btn { border: 1px solid var(--primary); background: white; color: var(--primary); padding: 8px 15px; border-radius: 20px; cursor: pointer; margin: 5px; transition:0.2s; }
+        .option-btn:hover { background: var(--primary); color: white; }
+
+        /* --- Checkout & Admin --- */
+        .checkout-view { background: white; padding: 40px; border-radius: 15px; box-shadow: var(--card-shadow); max-width: 800px; margin: 0 auto; }
+        .order-summary { background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #ddd; padding-bottom: 10px; }
+        .summary-total { font-size: 1.2rem; font-weight: bold; text-align: right; color: var(--danger); margin-top: 15px; border-top: 2px solid #eee; padding-top: 15px; }
+        .selection-card-group { display: flex; gap: 15px; margin-bottom: 20px; }
+        .selection-card { flex: 1; border: 1px solid #ddd; padding: 15px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.2s; background: white; }
+        .selection-card:hover, .selection-card.active { border-color: var(--primary); background: #e3f2fd; font-weight: bold; color: var(--primary); }
+        
+        .dashboard-container { background: white; padding: 30px; border-radius: 15px; box-shadow: var(--card-shadow); }
+        .admin-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .admin-tab { padding: 8px 20px; cursor: pointer; background: #eee; border-radius: 5px; font-weight: bold; }
+        .admin-tab.active { background: var(--primary); color: white; }
+        .order-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .order-table th, .order-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .order-table th { background: #f8f9fa; color: var(--primary); }
+        .status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; display: inline-block; }
+        .status-new { background: #e3f2fd; color: #0d47a1; }
+        .status-processing { background: #fff3cd; color: #856404; }
+        .status-done { background: #d4edda; color: #155724; }
+        .status-select { padding: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        .delete-btn { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
+        .footer-admin-link { position: fixed; bottom: 10px; right: 10px; color: #ccc; text-decoration: none; font-size: 0.8rem; }
+
+        /* Modal & Sidebar */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--modal-bg); display: none; justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; width: 90%; max-width: 800px; height: 85vh; border-radius: 15px; display: flex; flex-direction: column; overflow: hidden; }
+        .preview-container { position: relative; width: 100%; max-width: 600px; height: 100%; min-height: 400px; border: 1px solid #ddd; background: #eee; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .preview-img { max-width: 100%; max-height: 100%; display: none; }
+        .preview-pdf { width: 100%; height: 100%; border: none; display: none; }
+        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 350px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.3s; z-index: 2000; padding: 20px; display: flex; flex-direction: column; }
+        .cart-sidebar.open { right: 0; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="auth-view" style="display:block;">
+        <div class="container" style="padding-top:50px;">
+            <div style="text-align:center; margin-bottom:30px;">
+                <h1 style="color:var(--primary); font-size:2.5rem;">CMYKB 智慧印刷</h1>
+                <p>Welcome! 請先登入或註冊</p>
+            </div>
+            <div class="auth-container">
+                <div class="auth-tabs"><div id="tab-login" class="auth-tab active" onclick="toggleAuth('login')">登入</div><div id="tab-register" class="auth-tab" onclick="toggleAuth('register')">註冊</div></div>
+                <div id="form-login" class="auth-form">
+                    <input type="text" id="login-user" placeholder="帳號">
+                    <input type="password" id="login-pass" placeholder="密碼">
+                    <button class="btn-primary" onclick="login()">登入</button>
+             
+                    
+                </div>
+                <div id="form-register" class="auth-form" style="display:none;">
+                    <input type="text" id="reg-user" placeholder="設定帳號">
+                    <input type="password" id="reg-pass" placeholder="設定密碼">
+                    <div style="border-top:1px dashed #ddd; margin:15px 0;"></div>
+                    <input type="text" id="reg-name" placeholder="真實姓名 (必填)">
+                    <input type="text" id="reg-phone" placeholder="電話 (09xxxxxxxx)">
+                    <input type="email" id="reg-email" placeholder="Email">
+                    <button class="btn-primary" onclick="register()">註冊</button>
+                </div>
+                <p id="auth-msg" style="color:red; margin-top:10px; display:none;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-view" style="display:none;">
+        <header>
+            <div class="logo" onclick="switchView('home')">CMYKB</div>
+            <div class="nav-links">
+                <div class="nav-item" onclick="switchView('order')">下單中心</div>
+                <div class="nav-item" onclick="switchView('library')">材質圖鑑</div>
+            </div>
+            <div class="header-actions">
+                <div class="user-info"><span id="display-username">User</span><button onclick="switchView('my-orders')" style="background:none; border:1px solid #ccc; border-radius:15px; padding:2px 10px; cursor:pointer;">👤 訂單</button><button onclick="logout()" style="background:none; border:none; cursor:pointer; color:#666;">登出</button></div>
+                <button class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-badge" id="cart-count">0</span></button>
+            </div>
+        </header>
+
+        <div class="container">
+            <div id="home-view">
+                <h2 style="text-align:center;">您今天需要什麼服務？</h2>
+                <div class="mode-selection">
+                    <div class="mode-card" onclick="startWizard()"><div style="font-size:3rem;">💬</div><h3>AI 智慧導引</h3><p>三步驟精準推薦</p></div>
+                    <div class="mode-card" onclick="switchView('library')"><div style="font-size:3rem;">📚</div><h3>材質圖鑑</h3><p>瀏覽豐富規格與加工</p></div>
+                    <div class="mode-card" onclick="startExpert()"><div style="font-size:3rem;">🛠️</div><h3>直接下單</h3><p>規格齊全 (A0-A5)</p></div>
+                </div>
+            </div>
+
+            <div id="library-view" class="hidden-section">
+                <h2 style="text-align:center;">材質與規格圖鑑</h2>
+                <div class="library-section">
+                    <div class="library-tabs">
+                        <button class="lib-tab active" onclick="filterLib('size')">紙張尺寸</button>
+                        <button class="lib-tab" onclick="filterLib('material')">紙張材質</button>
+                        <button class="lib-tab" onclick="filterLib('finish')">後加工</button>
+                    </div>
+                    <div id="lib-content" class="spec-grid"></div>
+                </div>
+                <button class="back-btn" onclick="switchView('home')" style="display:block; margin:20px auto;">返回首頁</button>
+            </div>
+
+            <div id="wizard-mode" class="hidden-section">
+                <button class="back-btn" onclick="switchView('home')">← 返回</button>
+                <div class="chat-interface">
+                    <div id="chat-window" class="chat-window"><div class="message bot">你好！我是印刷小幫手。<br><b>Q1. 請問您的印刷用途是？</b></div></div>
+                    <div id="chat-options" class="chat-options"><button class="option-btn" onclick="wizardStep(1, 'flyer')">發傳單</button><button class="option-btn" onclick="wizardStep(1, 'poster')">貼海報</button><button class="option-btn" onclick="wizardStep(1, 'book')">做書本</button><button class="option-btn" onclick="wizardStep(1, 'card')">換名片</button></div>
+                </div>
+            </div>
+
+            <div id="expert-mode" class="hidden-section">
+                <div class="form-container">
+                    <h2 style="color:var(--primary); margin-top:0;">詳細規格下單</h2>
+                    <div class="form-grid">
+                        <div class="form-group"><label>1. 紙張尺寸</label><select class="form-control" id="ex-size" onchange="calcPrice()"><optgroup label="常用 A 系列"><option value="A4">A4 (文件)</option><option value="A3">A3 (海報)</option><option value="A5">A5 (傳單)</option><option value="A2">A2 (大型)</option></optgroup><optgroup label="B 系列"><option value="B4">B4 (試卷)</option><option value="B5">B5 (書籍)</option><option value="B3">B3 (海報)</option></optgroup><optgroup label="大圖/特殊"><option value="A1">A1 (大圖)</option><option value="A0">A0 (全開)</option><option value="Postcard">明信片</option><option value="Envelope">信封</option></optgroup><optgroup label="其他"><option value="NameCard">名片 (一盒)</option></optgroup></select></div>
+                        <div class="form-group"><label>2. 顏色</label><select class="form-control" id="ex-color" onchange="calcPrice()"><option value="bw">黑白</option><option value="color">彩色</option></select></div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group"><label>3. 材質</label><select class="form-control" id="ex-material" onchange="calcPrice()"><optgroup label="一般用紙"><option value="plain">普通影印紙</option><option value="woodfree">道林紙</option></optgroup><optgroup label="塗佈/卡紙"><option value="glossy">銅版紙 (亮)</option><option value="matte">雪銅紙 (霧)</option><option value="card_copper">銅西卡 (厚)</option><option value="ivory">象牙卡</option><option value="kraft">牛皮紙</option><option value="pearl">星幻紙</option><option value="pp">PP合成紙 (防水)</option></optgroup><optgroup label="貼紙類"><option value="sticker_mold">模造貼紙</option><option value="sticker_glossy">銅版貼紙</option><option value="sticker_trans">透明貼紙</option></optgroup></select></div>
+                        <div class="form-group"><label>4. 加工</label><select class="form-control" id="ex-finish" onchange="calcPrice()"><option value="none">無加工</option><optgroup label="裝訂"><option value="staple">騎馬釘</option><option value="glue">膠裝</option><option value="ring">環裝</option><option value="hardcover">精裝</option></optgroup><optgroup label="特殊加工"><option value="glossy-lam">上亮膜</option><option value="matte-lam">上霧膜</option><option value="spot-uv">局部光</option><option value="foil">燙金</option><option value="round">導圓角</option></optgroup></select></div>
+                    </div>
+                    <div class="form-group"><label>數量</label><input type="number" class="form-control" id="ex-qty" value="1" min="1" onchange="calcPrice()"></div>
+                    <div class="upload-area"><input type="file" id="real-file" class="file-input" accept="image/*,.pdf" onchange="handleFileUpload(this)"><div id="upload-placeholder"><div style="font-size:2rem;">📁</div><h4>點擊上傳檔案</h4><p style="color:#999;">支援 PDF/JPG</p></div><div id="file-display" style="display:none;"><h4 id="filename-display" style="color:var(--primary);">filename.pdf</h4><div id="status-ok" class="status-box status-ok" style="display:none;">✅ 檔案格式正確</div></div></div>
+                    <button id="preview-btn" class="preview-btn" style="background:var(--secondary); display:none;" onclick="openPreview()">🔍 預覽檔案</button>
+                    <div class="price-box"><span style="display:block; font-size:0.9rem; color:#666;">預估價格</span><div class="total-price" id="total-price">NT$ 0</div></div>
+                    <button class="btn-primary" id="add-cart-btn" onclick="addToCart()" disabled>請先預覽並確認</button>
+                </div>
+            </div>
+
+            <div id="checkout-view" class="hidden-section">
+                <button class="back-btn" onclick="switchView('home')">← 取消</button>
+                <div class="checkout-view">
+                    <div class="checkout-header"><h2>🛒 確認訂單與付款</h2></div>
+                    <h3>訂單明細</h3><div class="order-summary" id="checkout-list"></div>
+                    <h3>收件資訊</h3><div class="form-grid"><div class="form-group"><label>姓名</label><input type="text" id="checkout-name" class="form-control"></div><div class="form-group"><label>電話 (09xxxxxxxx)</label><input type="text" id="checkout-phone" class="form-control"></div></div><div class="form-group"><label>Email</label><input type="email" id="checkout-email" class="form-control"></div>
+                    <h3>配送方式</h3><div class="selection-card-group"><div class="selection-card active" id="del-pickup" onclick="selectDelivery('pickup')"><h4>🏪 門市自取</h4><p>免費</p></div><div class="selection-card" id="del-delivery" onclick="selectDelivery('delivery')"><h4>🚚 宅配</h4><p>運費+$100</p></div></div>
+                    <h3>付款方式</h3><div class="selection-card-group"><div class="selection-card active" id="pay-store" onclick="selectPayment('store')"><h4>💵 到店付款</h4></div><div class="selection-card" id="pay-mobile" onclick="selectPayment('mobile')"><h4>📱 行動支付</h4></div></div>
+                    <div class="summary-total">總付款金額: NT$ <span id="final-total">0</span></div>
+                    <button class="btn-primary" onclick="submitOrder()">確認送出訂單</button>
+                </div>
+            </div>
+
+            <div id="my-orders-view" class="hidden-section">
+                <div class="dashboard-container">
+                    <h2>👤 我的訂單紀錄</h2>
+                    <table class="order-table"><thead><tr><th>ID</th><th>內容</th><th>金額</th><th>狀態</th></tr></thead><tbody id="my-order-list"></tbody></table>
+                    <div id="no-my-orders" style="text-align:center; padding:20px; color:#999; display:none;">尚無訂單</div>
+                </div>
+            </div>
+
+            <div id="admin-dashboard-view" class="hidden-section">
+                <div class="dashboard-container">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><h2>📊 管理者後台</h2><button onclick="logout()" style="padding:5px 15px;">登出</button></div>
+                    <div class="admin-tabs"><div class="admin-tab active" onclick="switchAdminTab('orders')">訂單管理</div><div class="admin-tab" onclick="switchAdminTab('users')">會員管理</div></div>
+                    <div id="admin-tab-orders"><table class="order-table"><thead><tr><th>訂購人 (電話)</th><th>內容</th><th>配送</th><th>金額</th><th>狀態管理</th></tr></thead><tbody id="admin-order-list"></tbody></table></div>
+                    <div id="admin-tab-users" style="display:none;"><table class="order-table"><thead><tr><th>帳號</th><th>姓名</th><th>電話</th><th>Email</th><th>操作</th></tr></thead><tbody id="admin-user-list"></tbody></table></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="preview-modal" class="modal-overlay"><div class="modal-content"><div class="modal-body"><h3>檔案預覽</h3><div class="preview-container"><img id="preview-img-src" class="preview-img"><iframe id="preview-pdf-src" class="preview-pdf"></iframe></div><button class="btn-primary" style="max-width:300px; background:var(--success);" onclick="confirmPreview()">確認無誤</button><button style="margin-top:10px; background:none; border:none;" onclick="document.getElementById('preview-modal').style.display='none'">關閉</button></div></div></div>
+    <div id="cart-sidebar" class="cart-sidebar"><div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px;"><h3>🛒 購物車</h3><button onclick="toggleCart()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button></div><div id="cart-items" style="flex:1; overflow-y:auto; padding-top:10px;"></div><div style="border-top:1px solid #eee; padding-top:20px;"><div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; margin-bottom:10px;"><span>總計</span><span id="cart-total-display">NT$ 0</span></div><button class="btn-primary" onclick="goToCheckout()">前往結帳</button></div></div>
+    <a href="#" class="footer-admin-link" onclick="logout(); toggleAuth('login');">管理者登入</a>
+
+    <script>
+        // --- 1. LocalStorage Persistence Logic ---
+        function loadData() {
+            const users = localStorage.getItem('cmykb_users');
+            const orders = localStorage.getItem('cmykb_orders');
+            if(users) USERS_DB = JSON.parse(users);
+            if(orders) ORDERS_DB = JSON.parse(orders);
+        }
+        function saveData() {
+            localStorage.setItem('cmykb_users', JSON.stringify(USERS_DB));
+            localStorage.setItem('cmykb_orders', JSON.stringify(ORDERS_DB));
+        }
+        function resetData() {
+            if(confirm('確定要清空所有資料嗎？(將登出)')) {
+                localStorage.removeItem('cmykb_users');
+                localStorage.removeItem('cmykb_orders');
+                location.reload();
+            }
+        }
+
+        // Default Data
+        let USERS_DB = [{user:'admin',pass:'1234',role:'admin',name:'Admin',phone:'',email:''},{user:'user',pass:'1234',role:'user',name:'DemoUser',phone:'0912345678',email:'demo@mail.com'}];
+        let ORDERS_DB = [];
+        loadData(); // Load on init
+
+        let currentUser=null, cart=[], fileURL=null, fileType='image', checkoutState={delivery:'pickup',payment:'store'}, currentCartTotal=0, wizardState={purpose:'',waterproof:'',texture:''};
+
+        // Prices & Lib
+        const PRICES = {base_A4:3,base_A3:8,base_A5:2,base_A2:50,base_B4:5,base_B5:2,base_B3:40,base_A1:200,base_A0:400,base_Postcard:5,base_Envelope:10,base_NameCard:99,mat_plain:0,mat_woodfree:1,mat_glossy:2,mat_matte:3,mat_card_copper:5,mat_ivory:10,mat_kraft:5,mat_pearl:30,mat_pp:50,mat_sticker_mold:10,mat_sticker_glossy:15,mat_sticker_trans:25,finish_none:0,finish_staple:5,finish_glue:20,finish_ring:25,finish_hardcover:100,finish_glossy_lam:10,finish_matte_lam:15,finish_spot_uv:50,finish_foil:80,finish_round:30,color_bw:1,color_color:4};
+        const LIB_DATA = {size:[{t:"A4",d:"210x297mm",icon:"📄"},{t:"A3",d:"297x420mm",icon:"📑"},{t:"A5",d:"148x210mm",icon:"📝"},{t:"A2",d:"420x594mm",icon:"📜"},{t:"A1/A0",d:"大圖輸出",icon:"🖼️"},{t:"B4/B5",d:"試卷/書籍",icon:"📒"},{t:"名片",d:"90x54mm",icon:"🪪"},{t:"信封",d:"12K/15K",icon:"✉️"}],material:[{t:"普通紙",val:"plain",d:"便宜文件",css:"background:white;"},{t:"銅版紙",val:"glossy",d:"亮面傳單",css:"tex-glossy"},{t:"雪銅紙",val:"matte",d:"霧面畫冊",css:"tex-matte"},{t:"銅西卡",val:"card_copper",d:"加厚卡紙",css:"background:#fff;border:2px solid #eee;"},{t:"象牙卡",val:"ivory",d:"手感紮實",css:"background:#fffbf0;"},{t:"牛皮紙",val:"kraft",d:"復古風格",css:"tex-kraft"},{t:"星幻紙",val:"pearl",d:"珠光質感",css:"tex-pearl"},{t:"貼紙",val:"sticker_glossy",d:"銅版/透明",css:"background:#eee;"}],finish:[{t:"騎馬釘",val:"staple",icon:"📎"},{t:"膠裝",val:"glue",icon:"📚"},{t:"環裝",val:"ring",icon:"📒"},{t:"精裝",val:"hardcover",icon:"📕"},{t:"上亮/霧膜",val:"glossy-lam",icon:"✨"},{t:"燙金",val:"foil",icon:"⚜️"},{t:"局部光",val:"spot-uv",icon:"🔦"},{t:"導圓角",val:"round",icon:"🔲"}]};
+
+        // Auth
+        function toggleAuth(m){document.querySelectorAll('.auth-tab').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.auth-form').forEach(e=>e.style.display='none');document.getElementById('tab-'+m).classList.add('active');document.getElementById('form-'+m).style.display='block';}
+        function register(){
+            const u=document.getElementById('reg-user').value, p=document.getElementById('reg-pass').value, n=document.getElementById('reg-name').value, ph=document.getElementById('reg-phone').value, em=document.getElementById('reg-email').value;
+            if(!u||!p||!n){alert("資料不完整");return;}
+            if(USERS_DB.find(x=>x.user===u)){alert("帳號重複");return;}
+            USERS_DB.push({user:u,pass:p,role:'user',name:n,phone:ph,email:em});
+            saveData(); alert("註冊成功"); toggleAuth('login');
+        }
+        function login(){
+            const u=document.getElementById('login-user').value, p=document.getElementById('login-pass').value;
+            const user=USERS_DB.find(x=>x.user===u && x.pass===p);
+            if(user){currentUser=user;document.getElementById('auth-view').style.display='none';document.getElementById('app-view').style.display='block';document.getElementById('display-username').innerText=`Hi, ${user.name}`;if(user.role==='admin'){switchView('admin');document.querySelector('.header-actions').style.display='none';}else{switchView('home');document.querySelector('.header-actions').style.display='flex';}}else{document.getElementById('auth-msg').innerText="帳號密碼錯誤";document.getElementById('auth-msg').style.display='block';}
+        }
+        function logout(){currentUser=null;location.reload();}
+
+        // Nav
+        function switchView(v){
+            document.querySelectorAll('.hidden-section, #home-view').forEach(e=>e.style.display='none');
+            if(v==='home')document.getElementById('home-view').style.display='block';
+            if(v==='order'){document.getElementById('expert-mode').style.display='block';calcPrice();}
+            if(v==='library'){document.getElementById('library-view').style.display='block';filterLib('size');}
+            if(v==='checkout'){document.getElementById('checkout-view').style.display='block';renderCheckout();}
+            if(v==='my-orders'){document.getElementById('my-orders-view').style.display='block';renderUserOrders();}
+            if(v==='admin'){document.getElementById('admin-dashboard-view').style.display='block';renderAdminOrders();renderAdminUsers();}
+        }
+        function startWizard(){switchView('wizard');document.getElementById('wizard-mode').style.display='block';wizardReset();}
+        function startExpert(){switchView('order');}
+
+        // Library
+        function filterLib(t){document.querySelectorAll('.lib-tab').forEach(e=>e.classList.remove('active'));event.target.classList.add('active');const g=document.getElementById('lib-content');g.innerHTML="";LIB_DATA[t].forEach(i=>{let v=i.icon?`<div style="font-size:3rem;">${i.icon}</div>`:`<div class="texture-demo ${i.css}" style="${i.css}">材質</div>`;let b=i.val?`<button class="use-btn" onclick="useSpec('${t}','${i.val}')">選用 ➔</button>`:'';g.innerHTML+=`<div class="spec-card">${v}<div class="spec-title">${i.t}</div><div class="spec-desc">${i.d}</div>${b}</div>`;});}
+        function useSpec(t,v){switchView('order');if(t==='material')document.getElementById('ex-material').value=v;if(t==='finish')document.getElementById('ex-finish').value=v;calcPrice();}
+
+        // Wizard
+        function wizardReset(){document.getElementById('chat-window').innerHTML=`<div class="message bot">你好！我是印刷小幫手。<br><b>Q1. 請問您的印刷用途是？</b></div>`;document.getElementById('chat-options').innerHTML=`<button class="option-btn" onclick="wizardStep(1,'flyer')">發傳單</button><button class="option-btn" onclick="wizardStep(1,'poster')">貼海報</button><button class="option-btn" onclick="wizardStep(1,'card')">換名片</button>`;}
+        function wizardStep(s,v){const w=document.getElementById('chat-window');w.innerHTML+=`<div class="message user" style="float:right;clear:both;">${v}</div>`;if(s===1){setTimeout(()=>{w.innerHTML+=`<div class="message bot" style="clear:both;"><b>Q2. 喜歡亮面還是霧面？</b></div>`;document.getElementById('chat-options').innerHTML=`<button class="option-btn" onclick="wizardEnd('A4','glossy','none')">亮面</button><button class="option-btn" onclick="wizardEnd('A4','matte','none')">霧面</button>`;},500);}}
+        function wizardEnd(s,m,f){setTimeout(()=>{switchView('order');document.getElementById('ex-size').value=s;document.getElementById('ex-material').value=m;document.getElementById('ex-finish').value=f;calcPrice();},1000);}
+
+        // Order
+        function calcPrice(){const s=document.getElementById('ex-size').value,c=document.getElementById('ex-color').value,m=document.getElementById('ex-material').value,f=document.getElementById('ex-finish').value,q=document.getElementById('ex-qty').value;let b=PRICES['base_'+s]||10;let u=(b*(c==='color'?4:1))+(PRICES['mat_'+m]||0)+(PRICES['finish_'+f]||0);if(s==='NameCard')u=PRICES.base_NameCard+(PRICES['mat_'+m]||0);document.getElementById('total-price').innerText="NT$ "+(u*q);return u*q;}
+        function handleFileUpload(i){if(i.files[0]){const f=i.files[0];document.getElementById('upload-placeholder').style.display='none';document.getElementById('file-display').style.display='block';document.getElementById('filename-display').innerText=f.name;document.getElementById('status-ok').style.display='block';if(f.type.match('image.*')){let r=new FileReader();r.onload=e=>{fileURL=e.target.result;};r.readAsDataURL(f);fileType='image';}else{fileURL=URL.createObjectURL(f);fileType='pdf';}document.getElementById('preview-btn').style.display='block';}}
+        function openPreview(){const i=document.getElementById('preview-img-src'),p=document.getElementById('preview-pdf-src');if(fileType==='image'){i.src=fileURL;i.style.display='block';p.style.display='none';}else{p.src=fileURL;p.style.display='block';i.style.display='none';}document.getElementById('preview-modal').style.display='flex';}
+        function confirmPreview(){document.getElementById('preview-modal').style.display='none';const b=document.getElementById('add-cart-btn');b.disabled=false;b.innerText="加入購物車";b.style.backgroundColor="#28a745";}
+        function toggleCart(){document.getElementById('cart-sidebar').classList.toggle('open');}
+        function addToCart(){const s=document.getElementById('ex-size'),c=document.getElementById('ex-color'),m=document.getElementById('ex-material');cart.push({desc:`${s.options[s.selectedIndex].text}/${c.options[c.selectedIndex].text}/${m.options[m.selectedIndex].text}`,qty:document.getElementById('ex-qty').value,price:calcPrice()});updateCartUI();toggleCart();}
+        function updateCartUI(){document.getElementById('cart-count').innerText=cart.length;const c=document.getElementById('cart-items');c.innerHTML="";let t=0;cart.forEach(i=>{t+=i.price;c.innerHTML+=`<div style='background:#f9f9f9;padding:10px;margin-bottom:5px;'><b>${i.desc}</b><br>Qty:${i.qty} | $${i.price}</div>`;});document.getElementById('cart-total-display').innerText="NT$ "+t;}
+
+        // Checkout
+        function goToCheckout(){if(cart.length===0){alert('空車');return;}toggleCart();switchView('checkout');}
+        function renderCheckout(){
+            const l=document.getElementById('checkout-list');l.innerHTML="";let sub=0;
+            cart.forEach(i=>{sub+=i.price;l.innerHTML+=`<div class="summary-item"><div>${i.desc}(x${i.qty})</div><div>$${i.price}</div></div>`;});
+            document.getElementById('checkout-name').value=currentUser.name||"";document.getElementById('checkout-phone').value=currentUser.phone||"";document.getElementById('checkout-email').value=currentUser.email||"";
+            updateFinalTotal(sub);
+        }
+        function selectDelivery(t){checkoutState.delivery=t;updateUI();}
+        function selectPayment(t){checkoutState.payment=t;updateUI();}
+        function updateUI(){['del-pickup','del-delivery'].forEach(i=>document.getElementById(i).classList.remove('active'));['pay-store','pay-mobile'].forEach(i=>document.getElementById(i).classList.remove('active'));document.getElementById('del-'+checkoutState.delivery).classList.add('active');document.getElementById('pay-'+checkoutState.payment).classList.add('active');let s=0;cart.forEach(i=>s+=i.price);updateFinalTotal(s);}
+        function updateFinalTotal(s){let sh=checkoutState.delivery==='delivery'?100:0;currentCartTotal=s+sh;document.getElementById('final-total').innerText=currentCartTotal;}
+        function validatePhone(p){return /^(09\d{8}|0\d{1,2}-?\d{6,8})$/.test(p);}
+        function validateEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
+        function submitOrder(){
+            const n=document.getElementById('checkout-name').value, p=document.getElementById('checkout-phone').value, e=document.getElementById('checkout-email').value;
+            if(!n||!p||!e){alert("資料不全");return;} if(!validatePhone(p)){alert("電話格式錯");return;} if(!validateEmail(e)){alert("Email錯");return;}
+            let ord={id:'2025-'+Math.floor(Math.random()*9999),user:currentUser.user,userName:n,userPhone:p,items:cart.map(i=>i.desc).join('<br>'),info:`${checkoutState.delivery}/${checkoutState.payment}`,total:currentCartTotal,status:'新訂單'};
+            ORDERS_DB.push(ord); saveData(); cart=[]; updateCartUI(); alert('訂單已送出'); switchView('my-orders');
+        }
+
+        // Admin & User Dash
+        function renderUserOrders(){const b=document.getElementById('my-order-list');b.innerHTML="";const m=ORDERS_DB.filter(o=>o.user===currentUser.user).reverse();document.getElementById('no-my-orders').style.display=m.length===0?'block':'none';m.forEach(o=>{let c=o.status==='已完成'?'status-done':(o.status==='新訂單'?'status-new':'status-processing');b.innerHTML+=`<tr><td>#${o.id}</td><td>${o.items}</td><td>${o.info}</td><td>$${o.total}</td><td><span class="status-badge ${c}">${o.status}</span></td></tr>`;});}
+        function switchAdminTab(t){document.querySelectorAll('.admin-tab').forEach(e=>e.classList.remove('active'));event.target.classList.add('active');document.getElementById('admin-tab-orders').style.display=t==='orders'?'block':'none';document.getElementById('admin-tab-users').style.display=t==='users'?'block':'none';}
+        function renderAdminOrders(){const b=document.getElementById('admin-order-list');b.innerHTML="";[...ORDERS_DB].reverse().forEach((o,i)=>{let s=`<select class="status-select" onchange="updateOrderStatus(${ORDERS_DB.length-1-i},this.value)"><option value="新訂單" ${o.status==='新訂單'?'selected':''}>新訂單</option><option value="印製中" ${o.status==='印製中'?'selected':''}>印製中</option><option value="已完成" ${o.status==='已完成'?'selected':''}>已完成</option></select>`;b.innerHTML+=`<tr><td>${o.userName}<br><small>${o.userPhone}</small></td><td>${o.items}</td><td>${o.info}</td><td style='color:red;'>$${o.total}</td><td>${s}</td></tr>`;});}
+        function updateOrderStatus(i,v){ORDERS_DB[i].status=v;saveData();alert("狀態已更新");}
+        function renderAdminUsers(){const b=document.getElementById('admin-user-list');b.innerHTML="";USERS_DB.forEach((u,i)=>{let btn=u.role==='admin'?'-':`<button class="delete-btn" onclick="deleteUser(${i})">刪除</button>`;b.innerHTML+=`<tr><td>${u.user}</td><td>${u.name}</td><td>${u.phone}</td><td>${u.email}</td><td>${btn}</td></tr>`;});}
+        function deleteUser(i){if(confirm('刪除?')){USERS_DB.splice(i,1);saveData();renderAdminUsers();}}
+    </script>
+</body>
+</html>
