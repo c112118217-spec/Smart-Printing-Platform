@@ -16,666 +16,118 @@
             --card-shadow: 0 5px 15px rgba(0,0,0,0.08);
             --modal-bg: rgba(0,0,0,0.85);
         }
-
-        body {
-            font-family: 'Microsoft JhengHei', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        body { font-family: 'Microsoft JhengHei', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; -webkit-tap-highlight-color: transparent; }
+        
         /* --- Header --- */
-        header {
-            background: white;
-            padding: 1rem 5%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            flex-wrap: wrap;
-        }
+        header { background: white; padding: 1rem 5%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary); cursor: pointer; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-item { cursor: pointer; font-weight: bold; color: #666; transition: 0.2s; white-space: nowrap; }
+        .nav-item:hover { color: var(--primary); }
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .cart-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; position: relative; padding: 5px; }
+        .cart-badge { position: absolute; top: -2px; right: -5px; background: var(--danger); color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; }
+        .user-info { font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 10px; }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-            cursor: pointer;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-item {
-            cursor: pointer;
-            font-weight: bold;
-            color: #666;
-            transition: 0.2s;
-            white-space: nowrap;
-        }
-
-            .nav-item:hover {
-                color: var(--primary);
-            }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .cart-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            position: relative;
-            padding: 5px;
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -2px;
-            right: -5px;
-            background: var(--danger);
-            color: white;
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 50%;
-        }
-
-        .user-info {
-            font-weight: bold;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 20px;
-            padding-bottom: 80px;
-        }
+        .container { max-width: 1100px; margin: 2rem auto; padding: 0 20px; padding-bottom: 80px; }
 
         /* --- Auth --- */
-        .auth-container {
-            max-width: 450px;
-            margin: 50px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: var(--card-shadow);
-            text-align: center;
-        }
-
-        .auth-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .auth-tab {
-            flex: 1;
-            padding: 10px;
-            cursor: pointer;
-            color: #666;
-            font-weight: bold;
-        }
-
-            .auth-tab.active {
-                color: var(--primary);
-                border-bottom: 2px solid var(--primary);
-            }
-
-        .auth-form input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
+        .auth-container { max-width: 450px; margin: 50px auto; background: white; padding: 40px; border-radius: 15px; box-shadow: var(--card-shadow); text-align: center; }
+        .auth-tabs { display: flex; margin-bottom: 20px; border-bottom: 1px solid #eee; }
+        .auth-tab { flex: 1; padding: 10px; cursor: pointer; color: #666; font-weight: bold; }
+        .auth-tab.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+        .auth-form input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        
         /* --- Components --- */
-        .hidden-section {
-            display: none;
-            animation: fadeIn 0.3s;
-        }
-
-        .back-btn {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            font-size: 1.1rem;
-            transition: 0.2s;
-        }
-
-            .btn-primary:active {
-                transform: scale(0.98);
-            }
-
-            .btn-primary:disabled {
-                background: #ccc;
-                cursor: not-allowed;
-            }
-
+        .hidden-section { display: none; animation: fadeIn 0.3s; }
+        .back-btn { background: none; border: none; color: #666; cursor: pointer; font-size: 1rem; margin-bottom: 1rem; display: inline-flex; align-items: center; }
+        .btn-primary { background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 15px; font-size: 1.1rem; transition: 0.2s; }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
+        
         /* --- Home --- */
-        .mode-selection {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .mode-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            border: 2px solid transparent;
-            box-shadow: var(--card-shadow);
-        }
-
-            .mode-card:hover {
-                transform: translateY(-5px);
-                border-color: var(--primary);
-            }
+        .mode-selection { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+        .mode-card { background: white; padding: 2.5rem; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s; border: 2px solid transparent; box-shadow: var(--card-shadow); }
+        .mode-card:hover { transform: translateY(-5px); border-color: var(--primary); }
 
         /* --- Library --- */
-        .library-section {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: var(--card-shadow);
-        }
-
-        .library-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .lib-tab {
-            padding: 8px 20px;
-            cursor: pointer;
-            border-radius: 20px;
-            font-weight: bold;
-            background: #eee;
-            color: #666;
-            border: none;
-            transition: 0.2s;
-            flex-shrink: 0;
-        }
-
-            .lib-tab.active {
-                background: var(--primary);
-                color: white;
-            }
-
-        .spec-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        .spec-card {
-            border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 20px;
-            transition: 0.3s;
-            background: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .texture-demo {
-            height: 100px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: rgba(0,0,0,0.5);
-            font-weight: bold;
-            border: 1px solid #ddd;
-        }
-
-        .tex-glossy {
-            background: linear-gradient(135deg, #fff 0%, #eee 50%, #fff 100%);
-        }
-
-        .tex-matte {
-            background: #f0f0f0;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
-        }
-
-        .tex-kraft {
-            background: #d2b48c;
-        }
-
-        .tex-pearl {
-            background: linear-gradient(45deg, #fff0f5, #e6e6fa);
-        }
-
-        .use-btn {
-            width: 100%;
-            padding: 8px;
-            background: white;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-            .use-btn:hover {
-                background: var(--primary);
-                color: white;
-            }
+        .library-section { background: white; padding: 40px; border-radius: 15px; box-shadow: var(--card-shadow); }
+        .library-tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 10px; overflow-x: auto; white-space: nowrap; }
+        .lib-tab { padding: 8px 20px; cursor: pointer; border-radius: 20px; font-weight: bold; background: #eee; color: #666; border: none; transition:0.2s; flex-shrink: 0; }
+        .lib-tab.active { background: var(--primary); color: white; }
+        .spec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .spec-card { border: 1px solid #eee; border-radius: 10px; padding: 20px; transition: 0.3s; background: white; position: relative; overflow: hidden; }
+        .texture-demo { height: 100px; border-radius: 8px; margin-bottom: 15px; position: relative; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: rgba(0,0,0,0.5); font-weight: bold; border: 1px solid #ddd; }
+        .tex-glossy { background: linear-gradient(135deg, #fff 0%, #eee 50%, #fff 100%); }
+        .tex-matte { background: #f0f0f0; box-shadow: inset 0 0 20px rgba(0,0,0,0.05); }
+        .tex-kraft { background: #d2b48c; }
+        .tex-pearl { background: linear-gradient(45deg, #fff0f5, #e6e6fa); }
+        .use-btn { width: 100%; padding: 8px; background: white; border: 1px solid var(--primary); color: var(--primary); border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .use-btn:hover { background: var(--primary); color: white; }
 
         /* --- Order Form --- */
-        .form-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: var(--card-shadow);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-
-        .upload-area {
-            border: 2px dashed #ccc;
-            padding: 30px;
-            text-align: center;
-            border-radius: 10px;
-            margin-top: 20px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .file-input {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .status-ok {
-            background: #d4edda;
-            color: #155724;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            display: inline-block;
-        }
-
-        .price-box {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: right;
-            border-left: 5px solid var(--primary);
-            margin-top: 2rem;
-        }
-
-        .total-price {
-            font-size: 2rem;
-            color: #d9534f;
-            font-weight: bold;
-        }
+        .form-container { background: white; padding: 2rem; border-radius: 15px; box-shadow: var(--card-shadow); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        .upload-area { border: 2px dashed #ccc; padding: 30px; text-align: center; border-radius: 10px; margin-top: 20px; cursor: pointer; position: relative; }
+        .file-input { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
+        .status-ok { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-top: 10px; display: inline-block; }
+        .price-box { background: #f8f9fa; padding: 1.5rem; border-radius: 10px; text-align: right; border-left: 5px solid var(--primary); margin-top: 2rem; }
+        .total-price { font-size: 2rem; color: #d9534f; font-weight: bold; }
 
         /* --- Checkout & Admin --- */
-        .checkout-view {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: var(--card-shadow);
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .checkout-view { background: white; padding: 40px; border-radius: 15px; box-shadow: var(--card-shadow); max-width: 800px; margin: 0 auto; }
+        .selection-card-group { display: flex; gap: 15px; margin-bottom: 20px; }
+        .selection-card { flex: 1; border: 1px solid #ddd; padding: 15px; border-radius: 10px; cursor: pointer; text-align: center; transition: 0.2s; background: white; }
+        .selection-card.active { border-color: var(--primary); background: #e3f2fd; font-weight: bold; color: var(--primary); }
+        
+        .dashboard-container { background: white; padding: 30px; border-radius: 15px; box-shadow: var(--card-shadow); overflow-x: auto; }
+        .order-table { width: 100%; border-collapse: collapse; margin-top: 20px; min-width: 600px; }
+        .order-table th, .order-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .order-table th { background: #f8f9fa; color: var(--primary); }
+        .status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; display: inline-block; }
+        .status-new { background: #e3f2fd; color: #0d47a1; }
+        .status-processing { background: #fff3cd; color: #856404; }
+        .status-done { background: #d4edda; color: #155724; }
+        .footer-admin-link { position: fixed; bottom: 10px; right: 10px; color: #ccc; text-decoration: none; font-size: 0.8rem; z-index: 50; }
 
-        .selection-card-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
+        /* --- Modal & Sidebar --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--modal-bg); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; box-sizing: border-box; }
+        .modal-content { background: white; width: 100%; max-width: 600px; height: 80vh; max-height: 800px; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .modal-body { padding: 20px; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .preview-container { flex: 1; width: 100%; border: 1px solid #eee; background: #f8f9fa; display: flex; justify-content: center; align-items: center; overflow: hidden; border-radius: 10px; margin-bottom: 20px; }
+        .preview-img { max-width: 100%; max-height: 100%; display: none; object-fit: contain; }
+        .preview-pdf { width: 100%; height: 100%; border: none; display: none; }
+        .modal-footer { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: auto; padding-top: 10px; }
+        .btn-confirm-fancy { background: linear-gradient(135deg, #28a745, #218838); color: white; padding: 15px 50px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); transition: transform 0.2s, box-shadow 0.2s; width: 100%; max-width: 320px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-confirm-fancy:active { transform: scale(0.98); box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2); }
+        .btn-close-simple { background: transparent; border: none; color: #999; font-size: 0.9rem; cursor: pointer; text-decoration: underline; padding: 10px; }
 
-        .selection-card {
-            flex: 1;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
-            transition: 0.2s;
-            background: white;
-        }
+        /* Cart Styles (New for Delete) */
+        .cart-sidebar { position: fixed; top: 0; right: -100%; width: 350px; max-width: 100%; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.3s; z-index: 2000; padding: 20px; display: flex; flex-direction: column; box-sizing: border-box; }
+        .cart-sidebar.open { right: 0; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; margin-bottom: 8px; border-radius: 8px; border: 1px solid #eee; }
+        .cart-item-info { flex: 1; padding-right: 10px; font-size: 0.95rem; }
+        .cart-item-info small { color: #666; }
+        .del-item-btn { background: #fff0f0; border: 1px solid #ffcccc; color: var(--danger); width: 30px; height: 30px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; font-size: 1rem; }
+        .del-item-btn:hover { background: var(--danger); color: white; border-color: var(--danger); }
 
-            .selection-card.active {
-                border-color: var(--primary);
-                background: #e3f2fd;
-                font-weight: bold;
-                color: var(--primary);
-            }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .dashboard-container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: var(--card-shadow);
-            overflow-x: auto;
-        }
-
-        .order-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            min-width: 600px;
-        }
-
-            .order-table th, .order-table td {
-                padding: 15px;
-                text-align: left;
-                border-bottom: 1px solid #eee;
-            }
-
-            .order-table th {
-                background: #f8f9fa;
-                color: var(--primary);
-            }
-
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .status-new {
-            background: #e3f2fd;
-            color: #0d47a1;
-        }
-
-        .status-processing {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-done {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .footer-admin-link {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            color: #ccc;
-            text-decoration: none;
-            font-size: 0.8rem;
-            z-index: 50;
-        }
-
-        /* --- Modal & Sidebar (Modified) --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--modal-bg);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .modal-content {
-            background: white;
-            width: 100%;
-            max-width: 600px;
-            height: 80vh;
-            max-height: 800px;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        .modal-body {
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .preview-container {
-            flex: 1;
-            width: 100%;
-            border: 1px solid #eee;
-            background: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        .preview-img {
-            max-width: 100%;
-            max-height: 100%;
-            display: none;
-            object-fit: contain;
-        }
-
-        .preview-pdf {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: none;
-        }
-
-        /* New Modal Buttons Styling */
-        .modal-footer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-top: auto;
-            padding-top: 10px;
-        }
-
-        .btn-confirm-fancy {
-            background: linear-gradient(135deg, #28a745, #218838);
-            color: white;
-            padding: 15px 50px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-            width: 100%;
-            max-width: 320px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-            .btn-confirm-fancy:active {
-                transform: scale(0.98);
-                box-shadow: 0 2px 5px rgba(40, 167, 69, 0.2);
-            }
-
-        .btn-close-simple {
-            background: transparent;
-            border: none;
-            color: #999;
-            font-size: 0.9rem;
-            cursor: pointer;
-            text-decoration: underline;
-            padding: 10px;
-        }
-
-        .cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 350px;
-            max-width: 100%;
-            height: 100%;
-            background: white;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            transition: 0.3s;
-            z-index: 2000;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-        }
-
-            .cart-sidebar.open {
-                right: 0;
-            }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* --- Mobile Responsive (New) --- */
+        /* --- Mobile Responsive --- */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 15px;
-                padding-bottom: 80px;
-                margin: 1rem auto;
-            }
-
-            /* Header adjustments */
-            header {
-                padding: 10px 15px;
-                justify-content: center;
-                gap: 10px;
-            }
-
-            .logo {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 5px;
-            }
-
-            .header-actions {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .nav-links {
-                display: none;
-            }
-            /* Hide Desktop Nav */
-            /* Add Bottom Nav style if needed, or just rely on home buttons */
-
-            /* Stack grids */
-            .mode-selection {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-                margin-top: 1rem;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-
-            .library-section, .checkout-view, .dashboard-container {
-                padding: 20px;
-            }
-
-            /* Modal adjustments */
-            .modal-content {
-                height: 90vh;
-                max-height: 90vh;
-            }
-
-            .btn-confirm-fancy {
-                width: 100%;
-                font-size: 1.1rem;
-            }
-
-            /* Cart */
-            .cart-sidebar {
-                width: 100%;
-                right: -100%;
-            }
+            .container { padding: 0 15px; padding-bottom: 80px; margin: 1rem auto; }
+            header { padding: 10px 15px; justify-content: center; gap: 10px; }
+            .logo { width: 100%; text-align: center; margin-bottom: 5px; }
+            .header-actions { width: 100%; justify-content: space-between; }
+            .nav-links { display: none; }
+            .mode-selection { grid-template-columns: 1fr; gap: 1rem; margin-top: 1rem; }
+            .form-grid { grid-template-columns: 1fr; gap: 0; }
+            .library-section, .checkout-view, .dashboard-container { padding: 20px; }
+            .modal-content { height: 90vh; max-height: 90vh; }
+            .btn-confirm-fancy { width: 100%; font-size: 1.1rem; }
+            .cart-sidebar { width: 100%; right: -100%; }
         }
     </style>
 </head>
@@ -693,7 +145,7 @@
                     <input type="text" id="login-user" placeholder="帳號">
                     <input type="password" id="login-pass" placeholder="密碼">
                     <button class="btn-primary" onclick="login()">登入</button>
-
+                
                 </div>
                 <div id="form-register" class="auth-form" style="display:none;">
                     <input type="text" id="reg-user" placeholder="設定帳號">
@@ -831,8 +283,18 @@
         </div>
     </div>
 
-    <div id="cart-sidebar" class="cart-sidebar"><div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px;"><h3>🛒 購物車</h3><button onclick="toggleCart()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button></div><div id="cart-items" style="flex:1; overflow-y:auto; padding-top:10px;"></div><div style="border-top:1px solid #eee; padding-top:20px;"><div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; margin-bottom:10px;"><span>總計</span><span id="cart-total-display">NT$ 0</span></div><button class="btn-primary" onclick="goToCheckout()">前往結帳</button></div></div>
-
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px;">
+            <h3>🛒 購物車</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+        </div>
+        <div id="cart-items" style="flex:1; overflow-y:auto; padding-top:10px;"></div>
+        <div style="border-top:1px solid #eee; padding-top:20px;">
+            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:1.2rem; margin-bottom:10px;"><span>總計</span><span id="cart-total-display">NT$ 0</span></div>
+            <button class="btn-primary" onclick="goToCheckout()">前往結帳</button>
+        </div>
+    </div>
+    
     <a href="#" class="footer-admin-link" onclick="logout(); toggleAuth('login');">管理者登入</a>
 
     <script>
@@ -840,8 +302,8 @@
         function loadData() {
             const users = localStorage.getItem('cmykb_users');
             const orders = localStorage.getItem('cmykb_orders');
-            if (users) USERS_DB = JSON.parse(users);
-            if (orders) ORDERS_DB = JSON.parse(orders);
+            if(users) USERS_DB = JSON.parse(users);
+            if(orders) ORDERS_DB = JSON.parse(orders);
         }
         function saveData() {
             localStorage.setItem('cmykb_users', JSON.stringify(USERS_DB));
@@ -849,97 +311,131 @@
         }
 
         // Default Data
-        let USERS_DB = [{ user: 'admin', pass: '1234', role: 'admin', name: 'Admin', phone: '', email: '' }, { user: 'user', pass: '1234', role: 'user', name: 'DemoUser', phone: '0912345678', email: 'demo@mail.com' }];
+        let USERS_DB = [{user:'admin',pass:'1234',role:'admin',name:'Admin',phone:'',email:''},{user:'user',pass:'1234',role:'user',name:'DemoUser',phone:'0912345678',email:'demo@mail.com'}];
         let ORDERS_DB = [];
         loadData(); // Load on init
 
-        let currentUser = null, cart = [], fileURL = null, fileType = 'image', checkoutState = { delivery: 'pickup', payment: 'store' }, currentCartTotal = 0, wizardState = { purpose: '', waterproof: '', texture: '' };
+        let currentUser=null, cart=[], fileURL=null, fileType='image', checkoutState={delivery:'pickup',payment:'store'}, currentCartTotal=0, wizardState={purpose:'',waterproof:'',texture:''};
 
         // Prices & Lib
-        const PRICES = { base_A4: 3, base_A3: 8, base_A5: 2, base_A2: 50, base_B4: 5, base_B5: 2, base_B3: 40, base_A1: 200, base_A0: 400, base_Postcard: 5, base_Envelope: 10, base_NameCard: 99, mat_plain: 0, mat_woodfree: 1, mat_glossy: 2, mat_matte: 3, mat_card_copper: 5, mat_ivory: 10, mat_kraft: 5, mat_pearl: 30, mat_pp: 50, mat_sticker_mold: 10, mat_sticker_glossy: 15, mat_sticker_trans: 25, finish_none: 0, finish_staple: 5, finish_glue: 20, finish_ring: 25, finish_hardcover: 100, finish_glossy_lam: 10, finish_matte_lam: 15, finish_spot_uv: 50, finish_foil: 80, finish_round: 30, color_bw: 1, color_color: 4 };
-        const LIB_DATA = { size: [{ t: "A4", d: "210x297mm", icon: "📄" }, { t: "A3", d: "297x420mm", icon: "📑" }, { t: "A5", d: "148x210mm", icon: "📝" }, { t: "A2", d: "420x594mm", icon: "📜" }, { t: "A1/A0", d: "大圖輸出", icon: "🖼️" }, { t: "B4/B5", d: "試卷/書籍", icon: "📒" }, { t: "名片", d: "90x54mm", icon: "🪪" }, { t: "信封", d: "12K/15K", icon: "✉️" }], material: [{ t: "普通紙", val: "plain", d: "便宜文件", css: "background:white;" }, { t: "銅版紙", val: "glossy", d: "亮面傳單", css: "tex-glossy" }, { t: "雪銅紙", val: "matte", d: "霧面畫冊", css: "tex-matte" }, { t: "銅西卡", val: "card_copper", d: "加厚卡紙", css: "background:#fff;border:2px solid #eee;" }, { t: "象牙卡", val: "ivory", d: "手感紮實", css: "background:#fffbf0;" }, { t: "牛皮紙", val: "kraft", d: "復古風格", css: "tex-kraft" }, { t: "星幻紙", val: "pearl", d: "珠光質感", css: "tex-pearl" }, { t: "貼紙", val: "sticker_glossy", d: "銅版/透明", css: "background:#eee;" }], finish: [{ t: "騎馬釘", val: "staple", icon: "📎" }, { t: "膠裝", val: "glue", icon: "📚" }, { t: "環裝", val: "ring", icon: "📒" }, { t: "精裝", val: "hardcover", icon: "📕" }, { t: "上亮/霧膜", val: "glossy-lam", icon: "✨" }, { t: "燙金", val: "foil", icon: "⚜️" }, { t: "局部光", val: "spot-uv", icon: "🔦" }, { t: "導圓角", val: "round", icon: "🔲" }] };
+        const PRICES = {base_A4:3,base_A3:8,base_A5:2,base_A2:50,base_B4:5,base_B5:2,base_B3:40,base_A1:200,base_A0:400,base_Postcard:5,base_Envelope:10,base_NameCard:99,mat_plain:0,mat_woodfree:1,mat_glossy:2,mat_matte:3,mat_card_copper:5,mat_ivory:10,mat_kraft:5,mat_pearl:30,mat_pp:50,mat_sticker_mold:10,mat_sticker_glossy:15,mat_sticker_trans:25,finish_none:0,finish_staple:5,finish_glue:20,finish_ring:25,finish_hardcover:100,finish_glossy_lam:10,finish_matte_lam:15,finish_spot_uv:50,finish_foil:80,finish_round:30,color_bw:1,color_color:4};
+        const LIB_DATA = {size:[{t:"A4",d:"210x297mm",icon:"📄"},{t:"A3",d:"297x420mm",icon:"📑"},{t:"A5",d:"148x210mm",icon:"📝"},{t:"A2",d:"420x594mm",icon:"📜"},{t:"A1/A0",d:"大圖輸出",icon:"🖼️"},{t:"B4/B5",d:"試卷/書籍",icon:"📒"},{t:"名片",d:"90x54mm",icon:"🪪"},{t:"信封",d:"12K/15K",icon:"✉️"}],material:[{t:"普通紙",val:"plain",d:"便宜文件",css:"background:white;"},{t:"銅版紙",val:"glossy",d:"亮面傳單",css:"tex-glossy"},{t:"雪銅紙",val:"matte",d:"霧面畫冊",css:"tex-matte"},{t:"銅西卡",val:"card_copper",d:"加厚卡紙",css:"background:#fff;border:2px solid #eee;"},{t:"象牙卡",val:"ivory",d:"手感紮實",css:"background:#fffbf0;"},{t:"牛皮紙",val:"kraft",d:"復古風格",css:"tex-kraft"},{t:"星幻紙",val:"pearl",d:"珠光質感",css:"tex-pearl"},{t:"貼紙",val:"sticker_glossy",d:"銅版/透明",css:"background:#eee;"}],finish:[{t:"騎馬釘",val:"staple",icon:"📎"},{t:"膠裝",val:"glue",icon:"📚"},{t:"環裝",val:"ring",icon:"📒"},{t:"精裝",val:"hardcover",icon:"📕"},{t:"上亮/霧膜",val:"glossy-lam",icon:"✨"},{t:"燙金",val:"foil",icon:"⚜️"},{t:"局部光",val:"spot-uv",icon:"🔦"},{t:"導圓角",val:"round",icon:"🔲"}]};
 
         // Auth
-        function toggleAuth(m) { document.querySelectorAll('.auth-tab').forEach(e => e.classList.remove('active')); document.querySelectorAll('.auth-form').forEach(e => e.style.display = 'none'); document.getElementById('tab-' + m).classList.add('active'); document.getElementById('form-' + m).style.display = 'block'; }
-        function register() {
-            const u = document.getElementById('reg-user').value, p = document.getElementById('reg-pass').value, n = document.getElementById('reg-name').value, ph = document.getElementById('reg-phone').value, em = document.getElementById('reg-email').value;
-            if (!u || !p || !n) { alert("資料不完整"); return; }
-            if (USERS_DB.find(x => x.user === u)) { alert("帳號重複"); return; }
-            USERS_DB.push({ user: u, pass: p, role: 'user', name: n, phone: ph, email: em });
+        function toggleAuth(m){document.querySelectorAll('.auth-tab').forEach(e=>e.classList.remove('active'));document.querySelectorAll('.auth-form').forEach(e=>e.style.display='none');document.getElementById('tab-'+m).classList.add('active');document.getElementById('form-'+m).style.display='block';}
+        function register(){
+            const u=document.getElementById('reg-user').value, p=document.getElementById('reg-pass').value, n=document.getElementById('reg-name').value, ph=document.getElementById('reg-phone').value, em=document.getElementById('reg-email').value;
+            if(!u||!p||!n){alert("資料不完整");return;}
+            if(USERS_DB.find(x=>x.user===u)){alert("帳號重複");return;}
+            USERS_DB.push({user:u,pass:p,role:'user',name:n,phone:ph,email:em});
             saveData(); alert("註冊成功"); toggleAuth('login');
         }
-        function login() {
-            const u = document.getElementById('login-user').value, p = document.getElementById('login-pass').value;
-            const user = USERS_DB.find(x => x.user === u && x.pass === p);
-            if (user) { currentUser = user; document.getElementById('auth-view').style.display = 'none'; document.getElementById('app-view').style.display = 'block'; document.getElementById('display-username').innerText = `Hi, ${user.name}`; if (user.role === 'admin') { switchView('admin'); document.querySelector('.header-actions').style.display = 'none'; } else { switchView('home'); document.querySelector('.header-actions').style.display = 'flex'; } } else { document.getElementById('auth-msg').innerText = "帳號密碼錯誤"; document.getElementById('auth-msg').style.display = 'block'; }
+        function login(){
+            const u=document.getElementById('login-user').value, p=document.getElementById('login-pass').value;
+            const user=USERS_DB.find(x=>x.user===u && x.pass===p);
+            if(user){currentUser=user;document.getElementById('auth-view').style.display='none';document.getElementById('app-view').style.display='block';document.getElementById('display-username').innerText=`Hi, ${user.name}`;if(user.role==='admin'){switchView('admin');document.querySelector('.header-actions').style.display='none';}else{switchView('home');document.querySelector('.header-actions').style.display='flex';}}else{document.getElementById('auth-msg').innerText="帳號密碼錯誤";document.getElementById('auth-msg').style.display='block';}
         }
-        function logout() { currentUser = null; location.reload(); }
+        function logout(){currentUser=null;location.reload();}
 
         // Nav
-        function switchView(v) {
-            document.querySelectorAll('.hidden-section, #home-view').forEach(e => e.style.display = 'none');
-            window.scrollTo(0, 0); // Scroll to top on switch
-            if (v === 'home') document.getElementById('home-view').style.display = 'block';
-            if (v === 'order') { document.getElementById('expert-mode').style.display = 'block'; calcPrice(); }
-            if (v === 'library') { document.getElementById('library-view').style.display = 'block'; filterLib('size'); }
-            if (v === 'checkout') { document.getElementById('checkout-view').style.display = 'block'; renderCheckout(); }
-            if (v === 'my-orders') { document.getElementById('my-orders-view').style.display = 'block'; renderUserOrders(); }
-            if (v === 'admin') { document.getElementById('admin-dashboard-view').style.display = 'block'; renderAdminOrders(); renderAdminUsers(); }
+        function switchView(v){
+            document.querySelectorAll('.hidden-section, #home-view').forEach(e=>e.style.display='none');
+            window.scrollTo(0,0); // Scroll to top on switch
+            if(v==='home')document.getElementById('home-view').style.display='block';
+            if(v==='order'){document.getElementById('expert-mode').style.display='block';calcPrice();}
+            if(v==='library'){document.getElementById('library-view').style.display='block';filterLib('size');}
+            if(v==='checkout'){document.getElementById('checkout-view').style.display='block';renderCheckout();}
+            if(v==='my-orders'){document.getElementById('my-orders-view').style.display='block';renderUserOrders();}
+            if(v==='admin'){document.getElementById('admin-dashboard-view').style.display='block';renderAdminOrders();renderAdminUsers();}
         }
-        function startWizard() { switchView('wizard'); document.getElementById('wizard-mode').style.display = 'block'; wizardReset(); }
-        function startExpert() { switchView('order'); }
+        function startWizard(){switchView('wizard');document.getElementById('wizard-mode').style.display='block';wizardReset();}
+        function startExpert(){switchView('order');}
 
         // Library
-        function filterLib(t) { document.querySelectorAll('.lib-tab').forEach(e => e.classList.remove('active')); event.target.classList.add('active'); const g = document.getElementById('lib-content'); g.innerHTML = ""; LIB_DATA[t].forEach(i => { let v = i.icon ? `<div style="font-size:3rem;">${i.icon}</div>` : `<div class="texture-demo ${i.css}" style="${i.css}">材質</div>`; let b = i.val ? `<button class="use-btn" onclick="useSpec('${t}','${i.val}')">選用 ➔</button>` : ''; g.innerHTML += `<div class="spec-card">${v}<div class="spec-title">${i.t}</div><div class="spec-desc">${i.d}</div>${b}</div>`; }); }
-        function useSpec(t, v) { switchView('order'); if (t === 'material') document.getElementById('ex-material').value = v; if (t === 'finish') document.getElementById('ex-finish').value = v; calcPrice(); }
+        function filterLib(t){document.querySelectorAll('.lib-tab').forEach(e=>e.classList.remove('active'));event.target.classList.add('active');const g=document.getElementById('lib-content');g.innerHTML="";LIB_DATA[t].forEach(i=>{let v=i.icon?`<div style="font-size:3rem;">${i.icon}</div>`:`<div class="texture-demo ${i.css}" style="${i.css}">材質</div>`;let b=i.val?`<button class="use-btn" onclick="useSpec('${t}','${i.val}')">選用 ➔</button>`:'';g.innerHTML+=`<div class="spec-card">${v}<div class="spec-title">${i.t}</div><div class="spec-desc">${i.d}</div>${b}</div>`;});}
+        function useSpec(t,v){switchView('order');if(t==='material')document.getElementById('ex-material').value=v;if(t==='finish')document.getElementById('ex-finish').value=v;calcPrice();}
 
         // Wizard
-        function wizardReset() { document.getElementById('chat-window').innerHTML = `<div class="message bot">你好！我是印刷小幫手。<br><b>Q1. 請問您的印刷用途是？</b></div>`; document.getElementById('chat-options').innerHTML = `<button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardStep(1,'flyer')">發傳單</button><button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardStep(1,'poster')">貼海報</button><button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardStep(1,'card')">換名片</button>`; }
-        function wizardStep(s, v) { const w = document.getElementById('chat-window'); w.innerHTML += `<div class="message user" style="background:var(--primary); color:white; float:right; clear:both; padding:12px 18px; border-radius:15px; margin-bottom:15px;">${v}</div>`; if (s === 1) { setTimeout(() => { w.innerHTML += `<div class="message bot" style="background:#e9ecef; float:left; clear:both; padding:12px 18px; border-radius:15px; margin-bottom:15px;"><b>Q2. 喜歡亮面還是霧面？</b></div>`; document.getElementById('chat-options').innerHTML = `<button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardEnd('A4','glossy','none')">亮面</button><button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardEnd('A4','matte','none')">霧面</button>`; }, 500); } }
-        function wizardEnd(s, m, f) { setTimeout(() => { switchView('order'); document.getElementById('ex-size').value = s; document.getElementById('ex-material').value = m; document.getElementById('ex-finish').value = f; calcPrice(); }, 1000); }
+        function wizardReset(){document.getElementById('chat-window').innerHTML=`<div class="message bot">你好！我是印刷小幫手。<br><b>Q1. 請問您的印刷用途是？</b></div>`;document.getElementById('chat-options').innerHTML=`<button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardStep(1,'flyer')">發傳單</button><button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardStep(1,'poster')">貼海報</button><button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardStep(1,'card')">換名片</button>`;}
+        function wizardStep(s,v){const w=document.getElementById('chat-window');w.innerHTML+=`<div class="message user" style="background:var(--primary); color:white; float:right; clear:both; padding:12px 18px; border-radius:15px; margin-bottom:15px;">${v}</div>`;if(s===1){setTimeout(()=>{w.innerHTML+=`<div class="message bot" style="background:#e9ecef; float:left; clear:both; padding:12px 18px; border-radius:15px; margin-bottom:15px;"><b>Q2. 喜歡亮面還是霧面？</b></div>`;document.getElementById('chat-options').innerHTML=`<button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardEnd('A4','glossy','none')">亮面</button><button class="option-btn" style="border:1px solid var(--primary); background:white; color:var(--primary); padding:8px 15px; border-radius:20px; cursor:pointer; margin:5px;" onclick="wizardEnd('A4','matte','none')">霧面</button>`;},500);}}
+        function wizardEnd(s,m,f){setTimeout(()=>{switchView('order');document.getElementById('ex-size').value=s;document.getElementById('ex-material').value=m;document.getElementById('ex-finish').value=f;calcPrice();},1000);}
 
         // Order
-        function calcPrice() { const s = document.getElementById('ex-size').value, c = document.getElementById('ex-color').value, m = document.getElementById('ex-material').value, f = document.getElementById('ex-finish').value, q = document.getElementById('ex-qty').value; let b = PRICES['base_' + s] || 10; let u = (b * (c === 'color' ? 4 : 1)) + (PRICES['mat_' + m] || 0) + (PRICES['finish_' + f] || 0); if (s === 'NameCard') u = PRICES.base_NameCard + (PRICES['mat_' + m] || 0); document.getElementById('total-price').innerText = "NT$ " + (u * q); return u * q; }
-        function handleFileUpload(i) { if (i.files[0]) { const f = i.files[0]; document.getElementById('upload-placeholder').style.display = 'none'; document.getElementById('file-display').style.display = 'block'; document.getElementById('filename-display').innerText = f.name; document.getElementById('status-ok').style.display = 'inline-block'; if (f.type.match('image.*')) { let r = new FileReader(); r.onload = e => { fileURL = e.target.result; }; r.readAsDataURL(f); fileType = 'image'; } else { fileURL = URL.createObjectURL(f); fileType = 'pdf'; } document.getElementById('preview-btn').style.display = 'block'; } }
-        function openPreview() { const i = document.getElementById('preview-img-src'), p = document.getElementById('preview-pdf-src'); if (fileType === 'image') { i.src = fileURL; i.style.display = 'block'; p.style.display = 'none'; } else { p.src = fileURL; p.style.display = 'block'; i.style.display = 'none'; } document.getElementById('preview-modal').style.display = 'flex'; }
-        function confirmPreview() { document.getElementById('preview-modal').style.display = 'none'; const b = document.getElementById('add-cart-btn'); b.disabled = false; b.innerText = "加入購物車"; b.style.backgroundColor = "#28a745"; addToCart(); }
-        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
-        function addToCart() {
-            const s = document.getElementById('ex-size'), c = document.getElementById('ex-color'), m = document.getElementById('ex-material'); cart.push({ desc: `${s.options[s.selectedIndex].text}/${c.options[c.selectedIndex].text}/${m.options[m.selectedIndex].text}`, qty: document.getElementById('ex-qty').value, price: calcPrice() }); updateCartUI(); if (!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
+        function calcPrice(){const s=document.getElementById('ex-size').value,c=document.getElementById('ex-color').value,m=document.getElementById('ex-material').value,f=document.getElementById('ex-finish').value,q=document.getElementById('ex-qty').value;let b=PRICES['base_'+s]||10;let u=(b*(c==='color'?4:1))+(PRICES['mat_'+m]||0)+(PRICES['finish_'+f]||0);if(s==='NameCard')u=PRICES.base_NameCard+(PRICES['mat_'+m]||0);document.getElementById('total-price').innerText="NT$ "+(u*q);return u*q;}
+        function handleFileUpload(i){if(i.files[0]){const f=i.files[0];document.getElementById('upload-placeholder').style.display='none';document.getElementById('file-display').style.display='block';document.getElementById('filename-display').innerText=f.name;document.getElementById('status-ok').style.display='inline-block';if(f.type.match('image.*')){let r=new FileReader();r.onload=e=>{fileURL=e.target.result;};r.readAsDataURL(f);fileType='image';}else{fileURL=URL.createObjectURL(f);fileType='pdf';}document.getElementById('preview-btn').style.display='block';}}
+        function openPreview(){const i=document.getElementById('preview-img-src'),p=document.getElementById('preview-pdf-src');if(fileType==='image'){i.src=fileURL;i.style.display='block';p.style.display='none';}else{p.src=fileURL;p.style.display='block';i.style.display='none';}document.getElementById('preview-modal').style.display='flex';}
+        function confirmPreview(){document.getElementById('preview-modal').style.display='none';const b=document.getElementById('add-cart-btn');b.disabled=false;b.innerText="加入購物車";b.style.backgroundColor="#28a745";addToCart();}
+        function toggleCart(){document.getElementById('cart-sidebar').classList.toggle('open');}
+        
+        function addToCart(){
+            const s=document.getElementById('ex-size'),c=document.getElementById('ex-color'),m=document.getElementById('ex-material');
+            cart.push({desc:`${s.options[s.selectedIndex].text}/${c.options[c.selectedIndex].text}/${m.options[m.selectedIndex].text}`,qty:document.getElementById('ex-qty').value,price:calcPrice()});
+            updateCartUI();
+            if(!document.getElementById('cart-sidebar').classList.contains('open')) toggleCart();
             // Reset button state
-            const b = document.getElementById('add-cart-btn'); b.disabled = true; b.innerText = "請先預覽並確認"; b.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--primary');
+            const b=document.getElementById('add-cart-btn'); b.disabled=true; b.innerText="請先預覽並確認"; b.style.backgroundColor=getComputedStyle(document.documentElement).getPropertyValue('--primary');
         }
-        function updateCartUI() { document.getElementById('cart-count').innerText = cart.length; const c = document.getElementById('cart-items'); c.innerHTML = ""; let t = 0; cart.forEach(i => { t += i.price; c.innerHTML += `<div style='background:#f9f9f9;padding:10px;margin-bottom:5px;border-radius:5px;'><b>${i.desc}</b><br>Qty:${i.qty} | $${i.price}</div>`; }); document.getElementById('cart-total-display').innerText = "NT$ " + t; }
+
+        // --- NEW: Remove Function & Updated UI ---
+        function removeFromCart(index) {
+            if(!confirm('確定要移除此商品嗎？')) return;
+            cart.splice(index, 1);
+            updateCartUI();
+            // If user is currently on checkout page, update that too
+            if(document.getElementById('checkout-view').style.display === 'block') {
+                renderCheckout();
+                if(cart.length === 0) { alert('購物車已清空'); switchView('home'); }
+            }
+        }
+
+        function updateCartUI(){
+            document.getElementById('cart-count').innerText=cart.length;
+            const c=document.getElementById('cart-items');
+            c.innerHTML="";
+            let t=0;
+            // Updated Loop to include Delete Button
+            cart.forEach((i, index)=>{
+                t+=i.price;
+                c.innerHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <b>${i.desc}</b><br>
+                            <small>Qty:${i.qty} | $${i.price}</small>
+                        </div>
+                        <button class="del-item-btn" onclick="removeFromCart(${index})" title="刪除">🗑️</button>
+                    </div>`;
+            });
+            document.getElementById('cart-total-display').innerText="NT$ "+t;
+        }
 
         // Checkout
-        function goToCheckout() { if (cart.length === 0) { alert('購物車是空的'); return; } toggleCart(); switchView('checkout'); }
-        function renderCheckout() {
-            const l = document.getElementById('checkout-list'); l.innerHTML = ""; let sub = 0;
-            cart.forEach(i => { sub += i.price; l.innerHTML += `<div class="summary-item" style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px dashed #ddd; padding-bottom:10px;"><div>${i.desc}(x${i.qty})</div><div>$${i.price}</div></div>`; });
-            document.getElementById('checkout-name').value = currentUser.name || ""; document.getElementById('checkout-phone').value = currentUser.phone || ""; document.getElementById('checkout-email').value = currentUser.email || "";
+        function goToCheckout(){if(cart.length===0){alert('購物車是空的');return;}toggleCart();switchView('checkout');}
+        function renderCheckout(){
+            const l=document.getElementById('checkout-list');l.innerHTML="";let sub=0;
+            cart.forEach(i=>{sub+=i.price;l.innerHTML+=`<div class="summary-item" style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px dashed #ddd; padding-bottom:10px;"><div>${i.desc}(x${i.qty})</div><div>$${i.price}</div></div>`;});
+            document.getElementById('checkout-name').value=currentUser.name||"";document.getElementById('checkout-phone').value=currentUser.phone||"";document.getElementById('checkout-email').value=currentUser.email||"";
             updateFinalTotal(sub);
         }
-        function selectDelivery(t) { checkoutState.delivery = t; updateUI(); }
-        function selectPayment(t) { checkoutState.payment = t; updateUI(); }
-        function updateUI() { ['del-pickup', 'del-delivery'].forEach(i => document.getElementById(i).classList.remove('active'));['pay-store', 'pay-mobile'].forEach(i => document.getElementById(i).classList.remove('active')); document.getElementById('del-' + checkoutState.delivery).classList.add('active'); document.getElementById('pay-' + checkoutState.payment).classList.add('active'); let s = 0; cart.forEach(i => s += i.price); updateFinalTotal(s); }
-        function updateFinalTotal(s) { let sh = checkoutState.delivery === 'delivery' ? 100 : 0; currentCartTotal = s + sh; document.getElementById('final-total').innerText = currentCartTotal; }
-        function validatePhone(p) { return /^(09\d{8}|0\d{1,2}-?\d{6,8})$/.test(p); }
-        function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
-        function submitOrder() {
-            const n = document.getElementById('checkout-name').value, p = document.getElementById('checkout-phone').value, e = document.getElementById('checkout-email').value;
-            if (!n || !p || !e) { alert("資料不全"); return; } if (!validatePhone(p)) { alert("電話格式錯"); return; } if (!validateEmail(e)) { alert("Email錯"); return; }
-            let ord = { id: '2025-' + Math.floor(Math.random() * 9999), user: currentUser.user, userName: n, userPhone: p, items: cart.map(i => i.desc).join('<br>'), info: `${checkoutState.delivery}/${checkoutState.payment}`, total: currentCartTotal, status: '新訂單' };
-            ORDERS_DB.push(ord); saveData(); cart = []; updateCartUI(); alert('訂單已送出'); switchView('my-orders');
+        function selectDelivery(t){checkoutState.delivery=t;updateUI();}
+        function selectPayment(t){checkoutState.payment=t;updateUI();}
+        function updateUI(){['del-pickup','del-delivery'].forEach(i=>document.getElementById(i).classList.remove('active'));['pay-store','pay-mobile'].forEach(i=>document.getElementById(i).classList.remove('active'));document.getElementById('del-'+checkoutState.delivery).classList.add('active');document.getElementById('pay-'+checkoutState.payment).classList.add('active');let s=0;cart.forEach(i=>s+=i.price);updateFinalTotal(s);}
+        function updateFinalTotal(s){let sh=checkoutState.delivery==='delivery'?100:0;currentCartTotal=s+sh;document.getElementById('final-total').innerText=currentCartTotal;}
+        function validatePhone(p){return /^(09\d{8}|0\d{1,2}-?\d{6,8})$/.test(p);}
+        function validateEmail(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
+        function submitOrder(){
+            const n=document.getElementById('checkout-name').value, p=document.getElementById('checkout-phone').value, e=document.getElementById('checkout-email').value;
+            if(!n||!p||!e){alert("資料不全");return;} if(!validatePhone(p)){alert("電話格式錯");return;} if(!validateEmail(e)){alert("Email錯");return;}
+            let ord={id:'2025-'+Math.floor(Math.random()*9999),user:currentUser.user,userName:n,userPhone:p,items:cart.map(i=>i.desc).join('<br>'),info:`${checkoutState.delivery}/${checkoutState.payment}`,total:currentCartTotal,status:'新訂單'};
+            ORDERS_DB.push(ord); saveData(); cart=[]; updateCartUI(); alert('訂單已送出'); switchView('my-orders');
         }
 
         // Admin & User Dash
-        function renderUserOrders() { const b = document.getElementById('my-order-list'); b.innerHTML = ""; const m = ORDERS_DB.filter(o => o.user === currentUser.user).reverse(); document.getElementById('no-my-orders').style.display = m.length === 0 ? 'block' : 'none'; m.forEach(o => { let c = o.status === '已完成' ? 'status-done' : (o.status === '新訂單' ? 'status-new' : 'status-processing'); b.innerHTML += `<tr><td>#${o.id}</td><td>${o.items}</td><td>$${o.total}</td><td><span class="status-badge ${c}">${o.status}</span></td></tr>`; }); }
-        function switchAdminTab(t) { document.querySelectorAll('.admin-tab').forEach(e => { e.style.background = '#eee'; e.style.color = '#333'; }); event.target.style.background = 'var(--primary)'; event.target.style.color = 'white'; document.getElementById('admin-tab-orders').style.display = t === 'orders' ? 'block' : 'none'; document.getElementById('admin-tab-users').style.display = t === 'users' ? 'block' : 'none'; }
-        function renderAdminOrders() { const b = document.getElementById('admin-order-list'); b.innerHTML = "";[...ORDERS_DB].reverse().forEach((o, i) => { let s = `<select class="status-select" onchange="updateOrderStatus(${ORDERS_DB.length - 1 - i},this.value)" style="padding:5px; border-radius:5px;"><option value="新訂單" ${o.status === '新訂單' ? 'selected' : ''}>新訂單</option><option value="印製中" ${o.status === '印製中' ? 'selected' : ''}>印製中</option><option value="已完成" ${o.status === '已完成' ? 'selected' : ''}>已完成</option></select>`; b.innerHTML += `<tr><td>${o.userName}<br><small>${o.userPhone}</small></td><td>${o.items}</td><td>${o.info}</td><td style='color:red;'>$${o.total}</td><td>${s}</td></tr>`; }); }
-        function updateOrderStatus(i, v) { ORDERS_DB[i].status = v; saveData(); alert("狀態已更新"); }
-        function renderAdminUsers() { const b = document.getElementById('admin-user-list'); b.innerHTML = ""; USERS_DB.forEach((u, i) => { let btn = u.role === 'admin' ? '-' : `<button class="delete-btn" onclick="deleteUser(${i})" style="background:#dc3545; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">刪除</button>`; b.innerHTML += `<tr><td>${u.user}</td><td>${u.name}</td><td>${u.phone}</td><td>${u.email}</td><td>${btn}</td></tr>`; }); }
-        function deleteUser(i) { if (confirm('刪除?')) { USERS_DB.splice(i, 1); saveData(); renderAdminUsers(); } }
+        function renderUserOrders(){const b=document.getElementById('my-order-list');b.innerHTML="";const m=ORDERS_DB.filter(o=>o.user===currentUser.user).reverse();document.getElementById('no-my-orders').style.display=m.length===0?'block':'none';m.forEach(o=>{let c=o.status==='已完成'?'status-done':(o.status==='新訂單'?'status-new':'status-processing');b.innerHTML+=`<tr><td>#${o.id}</td><td>${o.items}</td><td>$${o.total}</td><td><span class="status-badge ${c}">${o.status}</span></td></tr>`;});}
+        function switchAdminTab(t){document.querySelectorAll('.admin-tab').forEach(e=>{e.style.background='#eee';e.style.color='#333';});event.target.style.background='var(--primary)';event.target.style.color='white';document.getElementById('admin-tab-orders').style.display=t==='orders'?'block':'none';document.getElementById('admin-tab-users').style.display=t==='users'?'block':'none';}
+        function renderAdminOrders(){const b=document.getElementById('admin-order-list');b.innerHTML="";[...ORDERS_DB].reverse().forEach((o,i)=>{let s=`<select class="status-select" onchange="updateOrderStatus(${ORDERS_DB.length-1-i},this.value)" style="padding:5px; border-radius:5px;"><option value="新訂單" ${o.status==='新訂單'?'selected':''}>新訂單</option><option value="印製中" ${o.status==='印製中'?'selected':''}>印製中</option><option value="已完成" ${o.status==='已完成'?'selected':''}>已完成</option></select>`;b.innerHTML+=`<tr><td>${o.userName}<br><small>${o.userPhone}</small></td><td>${o.items}</td><td>${o.info}</td><td style='color:red;'>$${o.total}</td><td>${s}</td></tr>`;});}
+        function updateOrderStatus(i,v){ORDERS_DB[i].status=v;saveData();alert("狀態已更新");}
+        function renderAdminUsers(){const b=document.getElementById('admin-user-list');b.innerHTML="";USERS_DB.forEach((u,i)=>{let btn=u.role==='admin'?'-':`<button class="delete-btn" onclick="deleteUser(${i})" style="background:#dc3545; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">刪除</button>`;b.innerHTML+=`<tr><td>${u.user}</td><td>${u.name}</td><td>${u.phone}</td><td>${u.email}</td><td>${btn}</td></tr>`;});}
+        function deleteUser(i){if(confirm('刪除?')){USERS_DB.splice(i,1);saveData();renderAdminUsers();}}
     </script>
 </body>
 </html>
-
