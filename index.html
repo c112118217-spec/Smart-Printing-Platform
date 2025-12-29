@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智慧印刷平台 | CMYKB</title>
+    <title>智慧印刷平台 | 智慧印刷平台</title>
     <style>
         /* --- CSS 變數 --- */
         :root {
@@ -165,7 +165,7 @@
             <div class="logo" onclick="switchView('home')">CMYKB</div>
             <div class="nav-links">
                 <div class="nav-item" onclick="switchView('order')">下單中心</div>
-                <div class="nav-item" onclick="switchView('library')">材質圖鑑</div>
+                <div class="nav-item" onclick="switchView('library')">尺寸&材質</div>
             </div>
             <div class="header-actions">
                 <div class="user-info"><span id="display-username">User</span><button onclick="switchView('my-orders')" style="background:none; border:1px solid #ccc; border-radius:15px; padding:2px 10px; cursor:pointer;">👤 訂單</button><button onclick="logout()" style="background:none; border:none; cursor:pointer; color:#666;">登出</button></div>
@@ -367,4 +367,5 @@
         function deleteUser(i){if(confirm('刪除?')){USERS_DB.splice(i,1);saveData();renderAdminUsers();}}
     </script>
 </body>
+
 </html>
